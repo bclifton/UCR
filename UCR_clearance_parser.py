@@ -41,7 +41,14 @@ def str_int(s):
                 # These are most likely data entry errors, for example: '000J4' instead of '0004J'
                 return s
 
-def delete_bullshit(s):
+def check_int(s):
+    if s.isdigit():
+        return int(s)
+    else:
+        return s.strip()
+
+
+def remove_escape_chars(s):
     return filter(lambda x: ord(x)<128, s)
 
 
@@ -285,11 +292,11 @@ def main():
                 data['special_mailing_address'] = sma[line[120]]                    # Special Mailing Address. This indication is used when the first line of the mailing address is other than "Chief of Police" or "Sheriff".   
                 data['agency_name'] = line[121:145].strip()                         # Agency Name.   
                 data['agency_state'] = line[145:151].strip()                        # Agency State Name.   
-                data['agency_address_1'] = delete_bullshit(line[151:181].strip())   # First Line of Mailing Address.   
-                data['agency_address_2'] = delete_bullshit(line[181:211].strip())   # Second Line of Mailing Address.   
-                data['agency_address_3'] = delete_bullshit(line[211:241].strip())   # Third Line of Mailing Address.   
-                data['agency_address_4'] = delete_bullshit(line[241:271].strip())   # Fourth Line of Mailing Address.   
-                data['agency_zip_code'] = delete_bullshit(line[271:276].strip())    # Zip Code.   
+                data['agency_address_1'] = remove_escape_chars(line[151:181].strip())   # First Line of Mailing Address.   
+                data['agency_address_2'] = remove_escape_chars(line[181:211].strip())   # Second Line of Mailing Address.   
+                data['agency_address_3'] = remove_escape_chars(line[211:241].strip())   # Third Line of Mailing Address.   
+                data['agency_address_4'] = remove_escape_chars(line[241:271].strip())   # Fourth Line of Mailing Address.   
+                data['agency_zip_code'] = remove_escape_chars(line[271:276].strip())    # Zip Code.   
                 data['old_population_group'] = line[276]                            # Old Population Group. The population group the agency was in the previous year.   
                 # # line[277:306]                                                   # Unused  - Blanks.
 
